@@ -11,13 +11,6 @@ jupyter notebook notebook/build_vectorstore.ipynb
 streamlit run app/rag_app.py
 ```
 
-## 🐳 Docker (optional)
-
-```bash
-docker build -t rag-chatbot .
-docker run -p 8501:8501 rag-chatbot
-```
-
 ## 📂 Project Structure
 ```
 ├── app/                  # Streamlit interface
@@ -37,3 +30,74 @@ docker run -p 8501:8501 rag-chatbot
 ## 🔬 Source
 Paper: Slamon et al., "Human breast cancer: correlation of relapse and survival with amplification of the HER-2/neu oncogene"  
 [ResearchGate PDF](https://www.researchgate.net/profile/Gary-Clark/publication/19364043_Slamon_DJ_Clark_GM_Wong_SG_Levin_WJ_Ullrich_A_McGuire_WLHuman_breast_cancer_correlation_of_relapse_and_survival_with_amplification_of_the_HER-2neu_oncogene_Science_Wash_DC_235_177-182/links/0046352b85f241a532000000/Slamon-DJ-Clark-GM-Wong-SG-Levin-WJ-Ullrich-A-McGuire-WLHuman-breast-cancer-correlation-of-relapse-and-survival-with-amplification-of-the-HER-2-neu-oncogene-Science-Wash-DC-235-177-182.pdf)
+
+
+## Evaluation Approach
+
+### ◦ Business Metrics (KPIs)
+
+To ensure the chatbot delivers practical value in a biomedical research context, we define the following KPIs:
+
+1. **Response Accuracy (Primary KPI):**
+   - Measured using **F1 Score** between the chatbot-generated answer and a human-annotated gold answer.
+   - Target: Maintain average F1 > **0.70** across test sets.
+   - Weak answers (F1 < 0.5) are flagged for review.
+
+2. **User Satisfaction (Secondary KPI):**
+   - Collected via post-interaction feedback (Likert scale or thumbs up/down in app).
+   - Optional future enhancement: integrate feedback logging into `rag_app.py`.
+
+3. **Response Time:**
+   - Measure time to return an answer from query submission.
+   - Acceptable threshold: ≤ **2 seconds** for 90% of queries.
+
+---
+
+### ◦ Testing
+
+We perform rigorous evaluation using a two-tier testing strategy:
+
+#### 1. **Curated QA Dataset Evaluation (Offline)**
+   - Built from the HER2 paper.
+   - Each QA pair includes a reference answer and is evaluated using:
+     - F1 score (for content overlap)
+     - Color-coded analysis of weak answers
+   - Can be scaled to include adversarial or paraphrased questions.
+
+#### 2. **Live User Testing (Online)**
+   - Log user queries and chatbot responses via Streamlit or backend logging.
+   - Periodically review real-user queries for:
+     - Coverage gaps
+     - Hallucinated or inaccurate answers
+     - Opportunities to add QA pairs to the evaluation set
+
+---
+
+### ◦ Continuous Improvement Process
+
+1. **Monitoring**
+   - Maintain a rolling log of user interactions and weak responses.
+   - Track F1 score trends on benchmark questions.
+
+2. **Human-in-the-loop Feedback Loop**
+   - Domain experts or QA reviewers validate low-F1 answers.
+   - Approved corrections are added to the gold dataset to expand evaluation coverage.
+
+3. **Model & Retrieval Refinement**
+   - Improve context retrieval using embedding model tuning (e.g., better sentence transformers).
+   - Fine-tune or switch to domain-specific LLMs (e.g., BioMedLM, BioGPT) based on weak answer patterns.
+
+4. **Dashboard (Optional)**
+   - Display metrics like average F1, count of weak responses, and response latency.
+
+---
+
+### Summary Table
+
+| KPI                | Metric               | Target       | Method                          |
+|--------------------|----------------------|--------------|----------------------------------|
+| Response Accuracy  | F1 Score              | > 70%        | Offline QA dataset              |
+| User Satisfaction  | Feedback score        | Qualitative  | Streamlit thumbs/scale (future) |
+| Response Time      | Latency               | < 2 sec      | Streamlit logging                |
+| Improvement Cycle  | Flagged low-F1 answers| ↓ over time  | QA review & retraining           |
+

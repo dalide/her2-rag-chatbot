@@ -1,0 +1,53 @@
+[
+    {
+      "id": "q1",
+      "question": "What gene is associated with poor prognosis in human breast cancer?",
+      "answer": "HER-2/neu gene amplification is associated with poor prognosis in human breast cancer."
+    },
+    {
+      "id": "q2",
+      "question": "In how many of the 103 tumors was HER-2/neu gene amplification found in the initial study?",
+      "answer": "In 19 out of 103 tumors (18%)."
+    },
+    {
+      "id": "q3",
+      "question": "Does HER-2/neu amplification correlate with hormone receptor status?",
+      "answer": "No significant correlation was found between HER-2/neu amplification and estrogen or progesterone receptor status."
+    },
+    {
+      "id": "q4",
+      "question": "How does HER-2/neu amplification affect relapse and survival rates?",
+      "answer": "Amplification significantly correlates with shorter time to relapse and overall survival, especially when more than five copies are present."
+    },
+    {
+      "id": "q5",
+      "question": "What statistical test was used to compare survival curves?",
+      "answer": "The log-rank test was used to compare Kaplan-Meier survival curves."
+    },
+    {
+      "id": "q6",
+      "question": "How many patients had HER-2/neu amplification in the second group of 86 node-positive samples?",
+      "answer": "34 out of 86 node-positive patients had HER-2/neu amplification."
+    },
+    {
+      "id": "q7",
+      "question": "Is HER-2/neu amplification an independent prognostic factor?",
+      "answer": "Yes, multivariate analysis showed HER-2/neu amplification provides independent prognostic information."
+    },
+    {
+      "id": "q8",
+      "question": "What was the median follow-up time in the node-positive patient study?",
+      "answer": "The median follow-up time was 46 months."
+    },
+    {
+      "id": "q9",
+      "question": "What methods were used to detect HER-2/neu amplification?",
+      "answer": "Southern blot analysis with a 32P-labeled HER-2 probe and dilution analysis were used."
+    },
+    {
+      "id": "q10",
+      "question": "Which other gene was compared with HER-2/neu for amplification?",
+      "answer": "The EGFR gene was compared, and found to be amplified in only 2% of cases."
+    }
+  ]
+  

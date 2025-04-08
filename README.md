@@ -43,7 +43,7 @@ The HER2 Q&A chatbot is built using **Streamlit** for a lightweight, interactive
 - Below the input, the app displays the chatbot’s answer in markdown format.
 - A spinner shows progress while the model processes the query.
 
-[img](/data/HER2%20Q&A%20Chatbot%20-%20screenshot.png)
+![Chatbot UI](data/HER2%20Q&A%20Chatbot%20-%20screenshot.png)
 
 ---
 

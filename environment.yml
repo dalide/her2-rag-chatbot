@@ -1,17 +1,21 @@
-name: rag-chatbot
+name: her2-rag-env
+channels:
+  - defaults
+  - conda-forge
+
 dependencies:
   - python=3.10
   - pip
   - pip:
-      - langchain
-      - langchain-huggingface
-      - langchain-community
-      - faiss-cpu
-      - openai
-      - sentence-transformers
       - streamlit
+      - langchain
+      - langchain-community
+      - langchain-huggingface
+      - faiss-cpu
+      - sentence-transformers
       - transformers
-      - pymupdf
-      - ipywidgets
-      - notebook
-      - tqdm
+      - accelerate
+      - evaluate
+      - pandas
+      - scikit-learn
+      - bert-score  # optional for semantic evaluation

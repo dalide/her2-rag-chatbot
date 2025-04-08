@@ -4,27 +4,48 @@ This is a Retrieval-Augmented Generation (RAG) chatbot for answering questions b
 
 ## 🛠 Setup Instructions
 
+### Create Conda Environment
 ```bash
 conda env create -f environment.yml
-conda activate rag-chatbot
+conda activate her2-rag-env
+```
+
+### Create the Vector Database using the paper
+```
 jupyter notebook notebook/build_vectorstore.ipynb
+```
+
+### Run the Chatbot App
+```
 streamlit run app/rag_app.py --server.fileWatcherType none
 ```
 
-## 📂 Project Structure
+
+## 📂 Project Structure (after generating the vector database)
 ```
-├── app/                  # Streamlit interface
-│   └── rag_app.py
-├── data/                 # Contains HER2 paper
-│   └── her2_paper.pdf    # Source: Slamon et al. (1987)
-├── notebook/             # For vector DB creation
-│   └── build_vectorstore.ipynb
-├── her2_faiss_db/        # Saved FAISS vector store
-├── environment.yml       # Conda environment
-├── Dockerfile            # Docker setup
-├── requirements.txt      # For Docker image
-├── README.md             # Project instructions
-└── .gitignore            # Ignored files
+her2-rag-chatbot/
+├── app/                          # Streamlit web interface for chatbot
+│   └── rag_app.py                # Main app: handles query input, retrieval, and response generation
+│
+├── data/                         # Project data directory
+│   ├── her2_paper.pdf            # Source document used for RAG
+│   └── qa/                       # Evaluation assets
+│       ├── her2_qa_dataset.json  # Gold-standard QA pairs for evaluation
+│       └── her2_predictions.json # Model-predicted answers for comparison
+│
+├── her2_faiss_db/                # Saved FAISS vectorstore (retriever index)
+│   └── index.faiss               # FAISS binary index
+│   └── index.pkl                 # Metadata for the FAISS store (LangChain-compatible)
+│
+├── notebook/                     # Jupyter notebooks for development and evaluation
+│   ├── build_vectorstore.ipynb   # Extracts text from PDF and builds FAISS vector store
+│   └── evaluate_qa_model.ipynb   # Evaluates chatbot using F1 score against gold QA dataset
+│
+├── environment.yml               # Conda environment definition (dependencies for setup)
+├── requirements.txt              # Optional: pip-based environment (can be auto-generated)
+├── README.md                     # Project overview, instructions, and evaluation methodology
+├── .gitignore                    # Excludes unneeded files (e.g., .pyc, __pycache__, FAISS temp files)
+
 ```
 
 ## 🔬 Source

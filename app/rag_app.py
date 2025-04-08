@@ -44,7 +44,7 @@ Answer:"""
 
 # Retrieve + format + answer
 def get_answer(query: str) -> str:
-    docs = vectorstore.similarity_search(query, k=10)
+    docs = vectorstore.similarity_search(query, k=15)
     context = "\n\n".join(doc.page_content for doc in docs)
     prompt = build_prompt(context, query)
     result = llm_pipeline(prompt, max_new_tokens=512, temperature=0.2)

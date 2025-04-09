@@ -1,0 +1,42 @@
+[
+  {
+    "question": "How common is HER-2/neu gene amplification in primary breast cancers?",
+    "answer": "HER-2/neu gene amplification was found in approximately 30% of primary breast cancers."
+  },
+  {
+    "question": "What is the highest level of HER-2/neu gene amplification observed in the study?",
+    "answer": "Amplification ranged up to more than 20-fold in some tumors."
+  },
+  {
+    "question": "What technique was used to detect HER-2/neu gene amplification?",
+    "answer": "A DNA dot blot assay using a HER-2/neu probe was used."
+  },
+  {
+    "question": "How many primary breast cancer samples were examined?",
+    "answer": "The study examined 189 primary human breast cancer samples."
+  },
+  {
+    "question": "Did the study find HER-2/neu amplification in benign breast diseases?",
+    "answer": "No, HER-2/neu amplification was not found in benign breast disease samples."
+  },
+  {
+    "question": "What tumor features correlated with HER-2/neu amplification?",
+    "answer": "Tumor size and lymph node involvement were positively correlated with HER-2/neu amplification."
+  },
+  {
+    "question": "What percentage of tumors showed more than 10-fold amplification?",
+    "answer": "14% of tumors showed more than 10-fold amplification."
+  },
+  {
+    "question": "Is HER-2/neu gene amplification associated with hormone receptor status?",
+    "answer": "The study did not find a significant correlation with estrogen or progesterone receptor status."
+  },
+  {
+    "question": "What prognostic implication does HER-2/neu amplification suggest?",
+    "answer": "HER-2/neu amplification may indicate a subset of breast cancer patients with a poor prognosis."
+  },
+  {
+    "question": "What conclusion did the study make about HER-2/neu amplification?",
+    "answer": "HER-2/neu amplification defines a distinct subset of breast cancers and may have prognostic value."
+  }
+]

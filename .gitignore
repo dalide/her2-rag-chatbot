@@ -1,5 +1,5 @@
 __pycache__/
 *.pyc
-her2_faiss_db/
+# her2_faiss_db/
 *.ipynb_checkpoints
 .env

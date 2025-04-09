@@ -1,156 +1,196 @@
 # HER2 Q&A RAG Chatbot
 
-This is a Retrieval-Augmented Generation (RAG) chatbot for answering questions based on a [seminal breast cancer paper (HER2)](/data/her2_paper.pdf).  
+A question-answering chatbot built on a scientific paper about HER2-positive breast cancer. Powered by:
+
+- FAISS vector search with sentence-transformer embeddings
+- Reranking using `BAAI/bge-reranker-base`
+- Local LLM (TinyLlama) for RAG-based Q&A
+- Streamlit for an interactive UI
+
+---
+
+## 📖 Project Overview
+
+This chatbot enables interactive exploration of the paper:  
+[Slamon et al., *Human breast cancer: correlation of relapse and survival with amplification of the HER-2/neu oncogene*](https://www.researchgate.net/...).
+
+- 📄 PDF: [`/data/her2_paper.pdf`](/data/her2_paper.pdf)  
+- 🔍 Use case: Biomedical research Q&A  
+- ⚙️ Local + lightweight setup (TinyLlama, CPU inference)  
+- 📈 Evaluated with curated QA dataset
+
+---
+
+## 🧠 How It Works
+
+1. Parse the HER2 scientific paper PDF.  
+2. Split into chunks and embed with a sentence transformer.  
+3. Store embeddings in FAISS.  
+4. Retrieve top chunks for a user query.  
+5. Optionally rerank using `bge-reranker-base`.  
+6. Generate response using TinyLlama with RAG.
+
+---
 
 ## 🛠 Setup Instructions
 
-### Create Conda Environment
+### 1. Create Conda Environment
 ```bash
 conda env create -f environment.yml
 conda activate her2-rag-env
 ```
 
-### Create the Vector Database using the paper
-```
+### 2. Build the Vectorstore
+```bash
 jupyter notebook notebook/build_vectorstore.ipynb
 ```
 
-### Run the Chatbot App
-```
+### 3. Launch the Chatbot
+```bash
 streamlit run app/rag_app.py --server.fileWatcherType none
 ```
 
-
-## 📂 Project Structure (after generating the vector database)
-```
-her2-rag-chatbot/
-├── app/                          # Streamlit web interface for chatbot
-│   └── rag_app.py                # Main app: handles query input, retrieval, and response generation
-│
-├── data/                         # Project data directory
-│   ├── her2_paper.pdf            # Source document used for RAG
-│   └── qa/                       # Evaluation assets
-│       ├── her2_qa_dataset.json  # Gold-standard QA pairs for evaluation
-│       └── her2_predictions.json # Model-predicted answers for comparison
-│
-├── her2_faiss_db/                # Saved FAISS vectorstore (retriever index)
-│   └── index.faiss               # FAISS binary index
-│   └── index.pkl                 # Metadata for the FAISS store (LangChain-compatible)
-│
-├── notebook/                     # Jupyter notebooks for development and evaluation
-│   ├── build_vectorstore.ipynb   # Extracts text from PDF and builds FAISS vector store
-│   └── evaluate_qa_model.ipynb   # Evaluates chatbot using F1 score against gold QA dataset
-│
-├── environment.yml               # Conda environment definition (dependencies for setup)
-├── requirements.txt              # Optional: pip-based environment (can be auto-generated)
-├── README.md                     # Project overview, instructions, and evaluation methodology
-├── .gitignore                    # Excludes unneeded files (e.g., .pyc, __pycache__, FAISS temp files)
-
-```
-
-## 🔬 Source
-Paper: Slamon et al., "Human breast cancer: correlation of relapse and survival with amplification of the HER-2/neu oncogene"  
-[ResearchGate PDF](https://www.researchgate.net/profile/Gary-Clark/publication/19364043_Slamon_DJ_Clark_GM_Wong_SG_Levin_WJ_Ullrich_A_McGuire_WLHuman_breast_cancer_correlation_of_relapse_and_survival_with_amplification_of_the_HER-2neu_oncogene_Science_Wash_DC_235_177-182/links/0046352b85f241a532000000/Slamon-DJ-Clark-GM-Wong-SG-Levin-WJ-Ullrich-A-McGuire-WLHuman-breast-cancer-correlation-of-relapse-and-survival-with-amplification-of-the-HER-2-neu-oncogene-Science-Wash-DC-235-177-182.pdf)
-
-
 ---
 
-## User Interface
+## 💬 User Interface
 
-The HER2 Q&A chatbot is built using **Streamlit** for a lightweight, interactive interface. Users can type questions related to the Her2 publication.
+Streamlit-based interactive UI with:
 
-### Example UI:
-- A text input field at the top allows users to type natural language questions.
-- Below the input, the app displays the chatbot’s answer in markdown format.
-- A spinner shows progress while the model processes the query.
+- Text input for natural language questions
+- Markdown-formatted model response
+- Loading spinner while processing
 
+**Screenshot:**  
 ![Chatbot UI](data/HER2%20Q&A%20Chatbot%20-%20screenshot.png)
 
 ---
 
-## Evaluation Approach
+## 📊 Evaluation Methodology
 
-### ◦ Business Metrics (KPIs)
+Evaluation performed using a curated set of 10 QA pairs from the HER2 paper.
 
-To ensure the chatbot delivers practical value in a biomedical research context, we define the following KPIs:
+### 🧪 Method
+- Questions focus on key findings
+- Answers generated via `get_answer()`
+- Compared against gold answers using:
+  - **Exact Match (EM)**
+  - **F1 Score**
 
-1. **Response Accuracy (Primary KPI):**
-   - Measured using **F1 Score** between the chatbot-generated answer and a human-annotated gold answer.
-   - Target: Maintain average F1 > **0.70** across test sets.
-   - Weak answers (F1 < 0.5) are flagged for review.
-   **F1 Score Definition:**
-   The F1 score is the harmonic mean of precision and recall. It measures the overlap between the model-generated answer and the gold answer.
-   
-   - **Precision** = proportion of predicted words that are correct
-   - **Recall** = proportion of gold words that are captured in the prediction
-   - **F1 = 2 × (Precision × Recall) / (Precision + Recall)**
+### 🗞 Results Summary
+- **Avg. EM:** _0.0_  
+- **Avg. F1 Score:** _Low to moderate_  
+_(Expected due to TinyLlama not being fine-tuned for biomedical QA)_
 
-   **Example Calculation:**
-   - **Gold answer:** "HER-2/neu gene amplification was found in 19 of 103 tumors."
-   - **Predicted answer:** "Amplification of HER2/neu was seen in 19 out of 103 cases."
-   - **Normalized and tokenized gold:** ["her2neu", "gene", "amplification", "was", "found", "in", "19", "of", "103", "tumors"]
-   - **Normalized and tokenized prediction:** ["amplification", "of", "her2neu", "was", "seen", "in", "19", "out", "103", "cases"]
-   - **Overlap tokens:** ["amplification", "her2neu", "was", "in", "19", "103"] (6 shared)
-   - **Precision:** 6 / 10 = 0.60
-   - **Recall:** 6 / 10 = 0.60
-   - **F1 Score:** 2 × (0.60 × 0.60) / (0.60 + 0.60) = **0.60**
-
-   
-2. **User Satisfaction (Secondary KPI):**
-   - Collected via post-interaction feedback (Likert scale or thumbs up/down in app).
-   - Optional future enhancement: integrate feedback logging into `rag_app.py`.
-
-3. **Response Time:**
-   - Measure time to return an answer from query submission.
-   - Acceptable threshold: ≤ **2 seconds** for 90% of queries.
+### ⚠️ Limitations
+- TinyLlama is small and untuned
+- CPU inference = slow eval
+- Domain mismatch for biomedical text
 
 ---
 
-### ◦ Testing
+## 🚀 Future Improvements
 
-We perform rigorous evaluation using a two-tier testing strategy:
-
-#### 1. **Curated QA Dataset Evaluation (Offline)**
-   - Built from the HER2 paper. (By Human expert or ChatGPT/Gemini)
-   - Each QA pair includes a reference answer and is evaluated using:
-     - F1 score (for content overlap)
-     - Color-coded analysis of weak answers
-   - Can be scaled to include adversarial or paraphrased questions.
-
-#### 2. **Live User Testing (Online)**
-   - Log user queries and chatbot responses via Streamlit or backend logging.
-   - Periodically review real-user queries for:
-     - Coverage gaps
-     - Hallucinated or inaccurate answers
-     - Opportunities to add QA pairs to the evaluation set
+- Swap in larger models (e.g., Mistral, MedAlpaca, Phi-2)
+- Fine-tune LLMs for biomedical QA
+- Add context-aware reranking
+- Enable faster latency with GPU hosting or cloud services
+- Add user feedback to the UI
 
 ---
 
-### ◦ Continuous Improvement Process
+## 📁 Output
 
-1. **Monitoring**
-   - Maintain a rolling log of user interactions and weak responses.
-   - Track F1 score trends on benchmark questions.
-
-2. **Human-in-the-loop Feedback Loop**
-   - Domain experts or QA reviewers validate low-F1 answers.
-   - Approved corrections are added to the gold dataset to expand evaluation coverage.
-
-3. **Model & Retrieval Refinement**
-   - Improve context retrieval using embedding model tuning (e.g., better sentence transformers).
-   - Fine-tune or switch to domain-specific LLMs (e.g., BioMedLM, BioGPT) based on weak answer patterns.
-
-4. **Dashboard (Optional)**
-   - Display metrics like average F1, count of weak responses, and response latency.
+Evaluation predictions saved to:
+```
+data/qa/her2_eval_predictions.csv
+```
+Includes: question, gold answer, prediction, EM/F1 scores.
 
 ---
 
-### Summary Table
+## 🧪 Evaluation Framework
 
-| KPI                | Metric               | Target       | Method                          |
-|--------------------|----------------------|--------------|----------------------------------|
-| Response Accuracy  | F1 Score              | > 70%        | Offline QA dataset              |
-| User Satisfaction  | Feedback score        | Qualitative  | Streamlit thumbs/scale (future) |
-| Response Time      | Latency               | < 2 sec      | Streamlit logging                |
-| Improvement Cycle  | Flagged low-F1 answers| ↓ over time  | QA review & retraining           |
+### 📌 Business KPIs
+
+| KPI               | Metric        | Target   | Method                    |
+|------------------|---------------|----------|---------------------------|
+| **Accuracy**      | F1 Score      | > 70%    | Curated QA dataset        |
+| **Satisfaction**  | Feedback score| Optional | Streamlit feedback        |
+| **Latency**       | Response time | ≤ 2 sec  | Logging in Streamlit app  |
+
+### 🧪 Testing Strategy
+
+**1. Offline QA Dataset Evaluation**  
+- Based on HER2 paper  
+- Manual or LLM-curated QA  
+- EM + F1 scoring  
+- Color-coded weak answer inspection
+
+**2. Live User Testing (Optional)**  
+- Collect real queries  
+- Identify hallucinations or low-F1 responses  
+- Expand QA set with validated pairs
+
+### ♻️ Continuous Improvement
+
+- Rolling logs for queries and responses  
+- Human-in-the-loop review  
+- Embedding model upgrades  
+- Fine-tune or switch LLMs  
+- Optional dashboard for tracking
+
+---
+
+## 🧠 Integrating Clinical Knowledge Embeddings (CKE)
+
+From [MIMS Harvard: Clinical Knowledge Embeddings](https://github.com/mims-harvard/Clinical-knowledge-embeddings)
+
+### Why Use CKE?
+
+- Boosts retrieval relevance with concept-level semantics
+- Expands queries with medically similar terms
+- Reranks passages based on clinical concept overlap
+
+### Ideas for Integration
+
+1. **Query Expansion**  
+   Add synonyms/concepts using CKE embeddings  
+2. **Semantic Reranking**  
+   Rerank chunks by clinical relevance  
+3. **Context Boosting/Filtering**  
+   Emphasize or filter context chunks by concept overlap  
+4. **Answer Enrichment**  
+   Highlight or reinforce clinical terms in the answer
+
+### Use Cases
+
+- Biomedical QA  
+- Translational research  
+- Document summarization  
+- PubMed-style search with RAG
+
+---
+
+## 📂 Project Structure
+
+```
+her2-rag-chatbot/
+├── app/                         # Streamlit UI
+│   └── rag_app.py
+├── data/
+│   ├── her2_paper.pdf
+│   └── qa/
+│       ├── her2_qa_dataset_v2.json
+│       └── her2_eval_predictions.csv
+├── her2_faiss_db/
+│   └── index.faiss
+│   └── index.pkl
+├── notebook/
+│   ├── build_vectorstore.ipynb
+│   └── evaluate_qa_model.ipynb
+├── environment.yml
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
 

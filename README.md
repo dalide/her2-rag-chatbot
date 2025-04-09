@@ -169,6 +169,38 @@ From [MIMS Harvard: Clinical Knowledge Embeddings](https://github.com/mims-harva
 - Document summarization  
 - PubMed-style search with RAG
 
+### 🔗 Key Takeaways
+
+1. **Standardized Clinical Knowledge Representation**  
+   - Integrates seven major medical vocabularies (diagnoses, labs, medications, etc.) into a single embedding space.  
+   - Removes the need for manual curation by learning from over 1.3 million relationships in a clinical knowledge graph.  
+   - Enables seamless use of EHR-coded data in machine learning applications.
+
+2. **Validated Across Large-Scale Real-World Data**  
+   - Evaluated using a phenotype risk score (PheRS) across 4.57 million patients (Clalit Healthcare).  
+   - Embeddings effectively stratify patient survival risk.  
+   - Clinical relevance validated by expert panels covering 90+ diseases and 3,000+ codes.
+
+3. **Advancing Precision Medicine**  
+   - Facilitates knowledge-grounded patient modeling, enhancing personalization in treatment and care recommendations.  
+   - Enables embedding-based similarity, prediction, and stratification tasks with high clinical fidelity.
+
+### 📊 Relevance to Humana
+
+Why this matters for a health insurance provider like Humana:
+
+- **Predictive Modeling & Risk Stratification**  
+  Improve identification of high-risk patients for early intervention.  
+  Enhance care management and reduce preventable utilization costs.
+
+- **Interoperability & Standardization**  
+  Normalize diverse clinical vocabularies across healthcare partners.  
+  Streamline integration of external EHR data into Humana's systems.
+
+- **Data-Driven Personalization**  
+  Power member-facing applications (e.g., care navigation, preventive alerts) with clinically meaningful embeddings.  
+  Improve value-based care outcomes with knowledge-informed analytics.
+
 ---
 
 ## 📂 Project Structure

@@ -74,7 +74,7 @@ Evaluation performed using a curated set of 10 QA pairs from the HER2 paper.
 - Answers generated via `get_answer()`
 - Compared against gold answers using:
   - **Exact Match (EM)**
-  - **F1 Score**
+  - **F1 Score based on ROUGE-1**
 
 ### 🗞 Results Summary
 - **Avg. EM:** _0.0_  
@@ -91,6 +91,7 @@ _(Expected due to TinyLlama not being fine-tuned for biomedical QA)_
 ## 🚀 Future Improvements
 
 - Swap in larger models (e.g., Mistral, MedAlpaca, Phi-2)
+- Adopt more evaluation (ROUGE-2, ROUGE-L, Bertscore, Factuality Check, Human eval)
 - Fine-tune LLMs for biomedical QA
 - Add context-aware reranking
 - Enable faster latency with GPU hosting or cloud services
